@@ -1,18 +1,31 @@
 package com.esley.web_services_springboot.resources;
 
 import com.esley.web_services_springboot.entities.User;
+import com.esley.web_services_springboot.services.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping(value = "users")
 public class UserResources {
 
+    @Autowired
+    private UserService userService;
+
     @GetMapping
-    public ResponseEntity<User> findAll() {
-        User u = new User(1L, "Esley", "Esley32@gmail.com", "9999999", "1234");
-        return ResponseEntity.ok().body(u);
+    public ResponseEntity< List<User> > findAll() {
+
+        List<User> users = userService.findAll();
+
+        return ResponseEntity.ok().body(users);
+    }
+
+    @GetMapping(value = "/{id}") // Para dizer que minha URL vai ter um parâmetro
+    public ResponseEntity<User> findById(@PathVariable Long id) {
+        User user = userService.FindbyId(id);
+        return ResponseEntity.ok().body(user);
     }
 }
