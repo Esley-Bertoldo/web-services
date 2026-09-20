@@ -52,7 +52,7 @@ public class Order implements Serializable {
     }
 
     public OrderStatus getOrderStatus() {
-        return OrderStatus.valueOf(orderStatus.toString());
+        return OrderStatus.valueof(orderStatus);
     }
 
     public void setOrderStatus(OrderStatus orderStatus) {
