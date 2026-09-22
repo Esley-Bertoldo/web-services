@@ -22,6 +22,11 @@ public class Product implements Serializable {
         // Não utilizei uma arraylist para garantir que n vou ter um produto com mais
         // de uma ocorrência da mesma categoria,o mesmo produto, n pode ter a mesma
         // categoria mais de uma vez
+
+    @ManyToMany
+    @JoinTable(name = "tb_product_category",
+    joinColumns = @JoinColumn(name = "product_id"),
+    inverseJoinColumns = @JoinColumn(name = "category_id"))
     private Set<Category> categories = new HashSet<>(); // Instanciei para a coleção n começar valendo nula, ela começa VAZIA, porém instanciada
 
     public Product() {}
