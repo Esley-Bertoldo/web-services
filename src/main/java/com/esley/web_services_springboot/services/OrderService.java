@@ -1,7 +1,6 @@
 package com.esley.web_services_springboot.services;
 
 import com.esley.web_services_springboot.entities.Order;
-import com.esley.web_services_springboot.entities.User;
 import com.esley.web_services_springboot.repositories.OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
