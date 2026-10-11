@@ -3,7 +3,7 @@ package com.esley.web_services_springboot.entities.pk;
 import com.esley.web_services_springboot.entities.Order;
 import com.esley.web_services_springboot.entities.Product;
 import jakarta.persistence.Embeddable;
-import jakarta.persistence.JoinTable;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 
 import java.io.Serializable;
@@ -13,11 +13,11 @@ import java.util.Objects;
 public class OrderItemPK implements Serializable {
 
     @ManyToOne
-    @JoinTable(name = "order_id")
+    @JoinColumn(name = "order_id")
     private Order order;
 
     @ManyToOne
-    @JoinTable(name = "product_id")
+    @JoinColumn(name = "product_id")
     private Product product;
 
     public Order getOrder() {
