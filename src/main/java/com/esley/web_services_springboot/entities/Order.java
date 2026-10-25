@@ -29,6 +29,7 @@ public class Order implements Serializable {
 
     @OneToMany(mappedBy = "id.order")
     private Set<OrderItem> Items = new HashSet<>();
+
     public Order() {
     }
 
@@ -88,6 +89,14 @@ public class Order implements Serializable {
 
     public Set<OrderItem> getItems() {
         return Items;
+    }
+
+    public Double getTotal() { // Padrão do java EE - get no começo
+        double sum = 0.0;
+        for (OrderItem orderItem : Items) {
+            sum = sum + orderItem.getSubtotal();
+        }
+        return sum;
     }
 
     @Override
