@@ -27,5 +27,19 @@ public class UserService {
         return userRepository.save(user);
     }
 
+    public void delete(Long id){
+        userRepository.deleteById(id);
+    }
 
+    public User update(Long id, User user){
+        User entity = userRepository.getReferenceById(id); // Não vai no banco de dados ainda, ele deixa o objeto gerenciado pelo banco de dados p ser trabalhado, e dps eu posso fazer alguma operação p chamar o bd
+        updatedata(entity, user);
+        return userRepository.save(entity);
+    }
+
+    private void updatedata(User entity, User user) {
+        entity.setName(user.getName());
+        entity.setEmail(user.getEmail());
+        entity.setPhone(user.getPhone());
+    }
 }
