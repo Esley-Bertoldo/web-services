@@ -3,7 +3,10 @@ package com.esley.web_services_springboot.services;
 import com.esley.web_services_springboot.entities.User;
 import com.esley.web_services_springboot.repositories.UserRepository;
 import com.esley.web_services_springboot.services.exceptions.ResourceNotFoundException;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -29,13 +32,23 @@ public class UserService {
     }
 
     public void delete(Long id){
-        userRepository.deleteById(id);
+        try{
+            userRepository.deleteById(id);
+        } catch (EmptyResultDataAccessException e) {
+            throw new ResourceNotFoundException(id);
+        } catch (DataIntegrityViolationException e) {
+            throw new DataIntegrityViolationException(e.getMessage());
+        }
     }
 
     public User update(Long id, User user){
-        User entity = userRepository.getReferenceById(id); // Não vai no banco de dados ainda, ele deixa o objeto gerenciado pelo banco de dados p ser trabalhado, e dps eu posso fazer alguma operação p chamar o bd
-        updateData(entity, user);
-        return userRepository.save(entity);
+        try{
+            User entity = userRepository.getReferenceById(id); // Não vai no banco de dados ainda, ele deixa o objeto gerenciado pelo banco de dados p ser trabalhado, e dps eu posso fazer alguma operação p chamar o bd
+            updateData(entity, user);
+            return userRepository.save(entity);
+        }catch (EntityNotFoundException e){
+            throw new ResourceNotFoundException(id);
+        }
     }
 
     private void updateData(User entity, User user) {

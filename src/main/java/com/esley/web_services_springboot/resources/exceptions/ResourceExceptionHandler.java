@@ -1,5 +1,6 @@
 package com.esley.web_services_springboot.resources.exceptions;
 
+import com.esley.web_services_springboot.services.exceptions.DatabaseException;
 import com.esley.web_services_springboot.services.exceptions.ResourceNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
@@ -16,6 +17,14 @@ public class ResourceExceptionHandler extends RuntimeException {
     ResponseEntity<StandardError> resourceNotFound(ResourceNotFoundException e, HttpServletRequest request) {
         String error = "Resouce not found";
         HttpStatus status = HttpStatus.NOT_FOUND;
+        StandardError SE =  new StandardError(Instant.now(), status.value(), error, e.getMessage(), request.getRequestURI());
+        return ResponseEntity.status(status).body(SE);
+    }
+
+    @ExceptionHandler(DatabaseException.class)
+    ResponseEntity<StandardError> database(DatabaseException e, HttpServletRequest request) {
+        String error = "Database error";
+        HttpStatus status = HttpStatus.BAD_REQUEST;
         StandardError SE =  new StandardError(Instant.now(), status.value(), error, e.getMessage(), request.getRequestURI());
         return ResponseEntity.status(status).body(SE);
     }
